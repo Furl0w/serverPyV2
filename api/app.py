@@ -10,9 +10,9 @@ def checkAuth():
 
     req = request.get_json()
 
-    for attr in ["uid", "abs", "ords", "time"]:
+    for attr in ["uid", "abs", "ord", "time"]:
         if attr not in req.keys():
-            return 
+            return
 
     async_task = celery.send_task('tasks.process', args=[req], kwargs={})
 
