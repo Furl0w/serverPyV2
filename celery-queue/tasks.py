@@ -49,24 +49,25 @@ def process(self, req):
                 "isAuthValid" : False,
                 "msg" : "Error while computing values",
             }
+    if(meta["isAuthValid"]==True):
+        try:
+            requests.post(f'{SERVER_GO_URL}/authAnswer', data=json.dumps({
+                "client": req['uid'],
+                "isAuthValid": meta["isAuthValid"]
+            }), headers={'Content-Type': 'application/json'})
+            meta["output"] = "SUCCESS"
 
-    try:
-        requests.post(f'{SERVER_GO_URL}/authAnswer', data=json.dumps({
-            "client": req['uid'],
-            "isAuthValid": meta["isAuthValid"]
-        }), headers={'Content-Type': 'application/json'})
-        meta["output"] = "SUCCESS"
+        except:
+            meta = {
+                "client": req['uid'],
+                "output" : 'FAILURE',
+                "isAuthValid": False,
+                "msg": "communication with auth server failed"
+            }
 
-    except:
-        meta = {
-            "client": req['uid'],
-            "output" : 'FAILURE',
-            "isAuthValid": False,
-            "msg": "communication with auth server failed"
-        }
-
-    finally:
-        return meta
+        finally:
+            return meta
+    return meta
 
 
 def getUserSignatures(uid):
