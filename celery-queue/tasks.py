@@ -4,11 +4,11 @@ from celery import Celery
 import processing as proc
 import requests, json
 
-SERVER_GO_URL = 'http://servergo:3030'
+SERVER_GO_URL = 'http://serverauth:3030'
 SERVER_DB_URL = 'http://serverdb:3031'
 
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379'),
-CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', 'redis://localhost:6379')
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'redis://redis:6379'),
+CELERY_RESULT_BACKEND = os.environ.get('CELERY_RESULT_BACKEND', 'redis://redis:6379')
 
 celery = Celery('tasks', broker=CELERY_BROKER_URL, backend=CELERY_RESULT_BACKEND)
 
